@@ -3,10 +3,12 @@
 
 /**
  * File: main.h
- * Auth: ESSI AKPEVWE PRASIE
+ * Auth: Essi Akpevwe Praise
+ * Desc: Header file containing prototypes for all functions
+ *       
  */
 
 int _putchar(char c);
-char *_strcat(char *dest, char *src)
+char *_strcat(char *dest, char *src);
 
 #endif
