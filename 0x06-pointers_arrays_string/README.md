@@ -1,1 +1,1 @@
-## More pointers, arrays and strings
+## more on arrays and pointers 
