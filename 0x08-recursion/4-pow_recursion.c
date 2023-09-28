@@ -1,11 +1,13 @@
 #include "main.h"
+
 /**
- * _pow_recursion - a function that returns the power of @x by @y x^y  
- * @x: integer x
- * @y: integer y
+ * _pow_recursion - Returns the value of x raised to the power of y.
+ * @x: The number to be raised.
+ * @y: The power.
  *
- * Return: the power of @x by @y
-*/
+ * Return: The value of x raised to the power of y.
+ */
+
 int _pow_recursion(int x, int y)
 {
 	int even;
