@@ -1,1 +1,1 @@
-## More on memory allocation  in c
+## More on memory allocation in C programming
