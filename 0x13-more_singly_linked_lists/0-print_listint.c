@@ -1,4 +1,5 @@
 #include "lists.h"
+
 /**
  * print_listint - Print elements of a singly linked list.
  * @h: Pointer to a list.
@@ -8,12 +9,15 @@
 size_t print_listint(const listint_t *h)
 {
     unsigned int count = 0;
+    
+    if(h = NULL)
+	return (0);
 
-    while (h)
+    while (h != NULL)
     {
         printf("%d\n", h->n);
+	h = h->next;
         count++;
-        h = h->next;
     }
     return (count);
 }
