@@ -3,49 +3,48 @@
 void free_listp(listptr_t **head);
 
 /**
- * print_listint_safe - prints a list of integrs and checks for duplicates
- * @head: the head pointer of the linked list of integers
+ * print_listint_safe - prints a list
+ * @head: the list
  *
- * Return: number of nodes in the list
+ * Return: number of nodes
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	size_t node_count = 0;
-	listptr_t *visited_nodes = NULL;
-	listptr_t *current_node, *new_node, *previous_nodes;
+	size_t num_nodes = 0;
+	listptr_t *hptr, *new, *add;
 
-	visited_nodes = NULL;
+	hptr = NULL;
 	while (head != NULL)
 	{
-		new_node = (listptr_t *)malloc(sizeof(listptr_t));
+		new = malloc(sizeof(listptr_t));
 
-		if (new_node == NULL)
+		if (new == NULL)
 			exit(98);
 
-		new_node->p = (void *)head;
-		new_node->next = visited_nodes;
-		visited_nodes = new_node;
+		new->p = (void *)head;
+		new->next = hptr;
+		hptr = new;
 
-		previous_nodes = visited_nodes;
+		add = hptr;
 
-		while (previous_nodes->next != NULL)
+		while (add->next != NULL)
 		{
-			previous_nodes = previous_nodes->next;
-			if (head == previous_nodes->p)
+			add = add->next;
+			if (head == add->p)
 			{
 				printf("-> [%p] %d\n", (void *)head, head->n);
-				free_listp(&visited_nodes);
-				return (node_count);
+				free_listp(&hptr);
+				return (num_nodes);
 			}
 		}
 
 		printf("[%p] %d\n", (void *)head, head->n);
 		head = head->next;
-		node_count++;
+		num_nodes++;
 	}
 
-	free_listp(&visited_nodes);
-	return (node_count);
+	free_listp(&hptr);
+	return (num_nodes);
 }
 
 /**
@@ -57,14 +56,14 @@ size_t print_listint_safe(const listint_t *head)
 void free_listp(listptr_t **head)
 {
 	listptr_t *temp;
-	listptr_t *current_node;
+	listptr_t *present;
 
 	if (head != NULL)
 	{
-		current_node = *head;
-		while ((temp = current_node) != NULL)
+		present = *head;
+		while ((temp = present) != NULL)
 		{
-			current_node = current_node->next;
+			present = present->next;
 			free(temp);
 		}
 		*head = NULL;
