@@ -10,7 +10,7 @@
  */
 unsigned int flip_bits(unsigned long int n, unsigned long int m)
 {
-	unsigned long int larger_num, smaller_num, count = 0;
+	unsigned long int large, small, count = 0;
 
 	if (n == m)
 	{
@@ -18,21 +18,21 @@ unsigned int flip_bits(unsigned long int n, unsigned long int m)
 	}
 	else if (n > m)
 	{
-		larger_num = n;
-		saller_num = m;
+		large = n;
+		small = m;
 	}
 	else
 	{
-		larger_num = m;
-		smaller_num = n;
+		large = m;
+		small = n;
 	}
 
-	while (larger_num != 0)
+	while (large != 0)
 	{
-		if ((larger_num & 1) != (smaller_num & 1))
+		if ((large & 1) != (small & 1))
 			count++;
-		larger_num = larger_num >> 1;
-		smaller_num = smaller_num >> 1;
+		large = large >> 1;
+		small = small >> 1;
 	}
 
 	return (count);
