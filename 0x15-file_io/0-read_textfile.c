@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include <stdio.h>
 /**
  * read_textfile - reads a text file and prints the letters
  * @filename: the name of the text file to be read. 
@@ -26,6 +26,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 		return (0);
 
 	num_bytes_read = read(file_descriptor, buffer, letters);
+
 	num_bytes_written = write(STDOUT_FILENO, buffer, num_bytes_read);
 
 	close(file_descriptor);
