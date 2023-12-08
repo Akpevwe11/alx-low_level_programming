@@ -34,13 +34,13 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 				else
 				{
 					new_node = malloc(sizeof(dlistint_t));
-					if (new != NULL)
+					if (new_node != NULL)
 					{
 						new_node->n = n;
 						new_node->next = head->next;
 						new_node->prev = head;
 						head->next->prev = new_node;
-						head->next = new_new_node;
+						head->next = new_node;
 					}
 				}
 				break;
