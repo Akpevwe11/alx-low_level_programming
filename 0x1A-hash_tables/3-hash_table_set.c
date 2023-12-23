@@ -1,61 +1,113 @@
 #include "hash_tables.h"
 
+/*prototypes*/
+int add_node_to_hash_table(hash_table_t *ht, const char *key,
+						   const char *value, unsigned long int k_index);
+int update_value(hash_table_t *ht, const char *key,
+				 const char *value, unsigned long int k_index);
 /**
- * hash_table_set - Add or update an element in a hash table
- * @ht: Hash table to add or update the key/value
- * @key: The Key to add or update (must not be an empty string)
- * @value: The value associated with the key
- * (must be duplicated and can be empty)
- *
- * Return: 1 if the operation succeeded, 0 otherwise.
+ * hash_table_set - add item to hash table
+ * @ht: hash table printer
+ * @key: string key
+ * @value: string value
+ * Return: index of a key.
  */
-
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	if (ht == NULL || key == NULL || *key == '\0')
+	unsigned long int k_index;
+	int updated_or_added = 0;
+	/*check validation*/
+	if (ht == NULL || key == NULL || key[0] == '\0')
 		return (0);
 
-	usigned long int index = key_index((const unsigned char *)key, ht->size);
+	/*get index*/
+	k_index = key_index((unsigned char *)key, ht->size);
 
-	hash_node_t *current_node = ht->array[index];
+	updated_or_added = update_value(ht, key, value, k_index);
+	if (updated_or_added == 0)
+		updated_or_added = add_node_to_hash_table(ht, key, value, k_index);
 
-	while (current_node)
+	return (updated_or_added);
+}
+
+/**
+ * add_node_to_hash_table - adds a node to a hash table
+ *
+ * @ht: pointer to the hash table
+ * @key: key to add
+ * @value: value to add
+ * @k_index: index of the key in the hash table
+ *
+ * Return: 1 on success, 0 on failure
+ */
+int add_node_to_hash_table(hash_table_t *ht, const char *key,
+						   const char *value, unsigned long int k_index)
+{
+
+	hash_node_t *h_node;
+	/*allocat node*/
+
+	h_node = malloc(sizeof(hash_node_t));
+	if (h_node == NULL)
+		return (0);
+
+	h_node->key = strdup(key);
+	if (h_node->key == NULL)
 	{
-		if (strcmp(current_node->key, key) == 0)
-		{
-			free(current_node->value);
-			current_node->value = strdup(value);
+		free(h_node);
+		return (0);
+	}
+	h_node->value = strdup(value);
+	if (h_node->value == NULL)
+	{
+		free(h_node->key);
+		free(h_node);
+		return (0);
+	}
 
-			if (current_node->value == NULL)
+	if (ht->array[k_index])
+	{
+		h_node->next = ht->array[k_index];
+		ht->array[k_index] = h_node;
+	}
+	else
+	{
+		ht->array[k_index] = h_node;
+		h_node->next = NULL;
+	}
+	return (1);
+}
+
+/**
+ * update_value - updates the value of a node in a hash table
+ *
+ * @ht: pointer to the hash table
+ * @key: key of the node to update
+ * @value: new value to set
+ * @k_index: index of the key in the hash table
+ *
+ * Return: 1 on success, 0 on failure
+ */
+int update_value(hash_table_t *ht, const char *key,
+				 const char *value, unsigned long int k_index)
+{
+	hash_node_t *current;
+
+	if (ht->array[k_index] == NULL)
+		return (0);
+	current = ht->array[k_index];
+
+	while (current)
+	{
+		if (strcmp(current->key, key) == 0)
+		{
+			free(current->value);
+			current->value = strdup(value);
+			if (current->value == NULL)
 				return (0);
 			return (1);
 		}
-
-		current_node = current_node->next;
+		current = current->next;
 	}
-
-	hash_node_t *new_node = malloc(sizeof(hash_node_t));
-
-	if (new_node == NULL)
-		return (0);
-
-	new_node->key = strdup(key);
-	if (new_node->key == NULL)
-	{
-		free(new_node);
-		return (0);
-	}
-
-	new_node->value = strdup(value);
-	if (new_node->value == NULL)
-	{
-		free(new_node->key);
-		free(new_node);
-		return (0);
-	}
-
-	new_node->next = ht->array[index];
-	ht->array[index] = new_node;
-
-	return (1);
+	return (0);
 }
