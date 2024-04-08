@@ -67,7 +67,7 @@ Value checked array[9] = [9]
 Found 999 at index: -1
 ```
 
-## 0. Binary search 
+## 1. Binary search 
 
 ### Task 1:
 
